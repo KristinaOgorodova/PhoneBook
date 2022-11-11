@@ -248,9 +248,9 @@ const data = [
     const phoneBook = renderPhoneBook(app, title);
 
     const {
-      list, 
-      logo, 
-      btnAdd, 
+      list,
+      logo,
+      btnAdd,
       formOverlay,
       form,
       btnDel,
@@ -260,9 +260,9 @@ const data = [
     hoverRow(allRow, logo);
 
     const objEvent = {
-      handleEvent () {
-        formOverlay.classList.add('is-visible')
-      }
+      handleEvent() {
+        formOverlay.classList.add('is-visible');
+      },
     };
 
     btnAdd.addEventListener('click', objEvent);
@@ -274,11 +274,11 @@ const data = [
     formOverlay.addEventListener('click', e => {
       const target = e.target;
       if (target === formOverlay || target.classList.contains('close')) {
-      formOverlay.classList.remove('is-visible');
+        formOverlay.classList.remove('is-visible');
       }
     });
 
-    //Удаление эл-ов
+    // Удаление эл-ов
 
     btnDel.addEventListener('click', () => {
       document.querySelectorAll('.delete').forEach(del => {
@@ -291,7 +291,7 @@ const data = [
         e.target.closest('.contact').remove();
       }
     });
-// 
+    //
   };
 
   window.phoneBookInit = init;
