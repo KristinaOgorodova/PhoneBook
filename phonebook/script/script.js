@@ -248,6 +248,24 @@ const data = [
     });
   };
 
+
+  const getStorage = (key) => {
+    const storage = [];
+    return localStorage.getItem(key) || storage;
+  };
+
+  const setStorage = (obj) => {
+    localStorage.setItem('data', JSON.stringify(data));
+    data.push(obj);
+
+  };
+
+  const removeStorage = (number) => {
+    if (data.phone === +number) {
+      localStorage.removeItem('key')}
+  };
+
+
   const modalControl = (btnAdd, formOverlay) => {
     const openModal = () => {
       formOverlay.classList.add('is-visible');
@@ -299,6 +317,7 @@ const data = [
 
       addContactPage(newContact, list);
       addContactData(newContact);
+      setStorage(newContact);
       form.reset();
       closeModal();
     })
@@ -322,7 +341,10 @@ const data = [
     hoverRow(allRow, logo);
     deleteControl(btnDel,list);
     formControl(form, list, closeModal);
+    getStorage('data');
+    console.log(data);
   };
+
 
   window.phoneBookInit = init;
 }
