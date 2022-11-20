@@ -25,8 +25,9 @@ const data = [
 
 {
   const addContactData = contact => {
+    const data = getStorage('phonebook');
     data.push(contact);
-    console.log('data: ', data);
+    setStorage(data);
   }
 
   const createContainer = () => {
@@ -211,6 +212,7 @@ const data = [
     tdDel.classList.add('delete');
     const buttonDel = document.createElement('button');
     buttonDel.classList.add('del-icon');
+    buttonDel.dataset.phone = phone;
     tdDel.append(buttonDel);
 
     const tdName = document.createElement('td');
@@ -249,20 +251,18 @@ const data = [
   };
 
 
-  const getStorage = (key) => {
-    const storage = [];
-    return localStorage.getItem(key) || storage;
-  };
+  const getStorage = () => (localStorage.getItem('phonebook') ?
+      JSON.parse(localStorage.getItem('phonebook')) : []);
 
-  const setStorage = (obj) => {
-    localStorage.setItem('data', JSON.stringify(data));
-    data.push(obj);
 
+  const setStorage = (data) => {
+    localStorage.setItem('phonebook', JSON.stringify(data));
   };
 
   const removeStorage = (number) => {
-    if (data.phone === +number) {
-      localStorage.removeItem('key')}
+    const data = getStorage('phonebook');
+    const newData = data.filter(item => item.phone !== number);
+    setStorage(newData);
   };
 
 
@@ -298,8 +298,10 @@ const data = [
     });
 
     list.addEventListener('click', e => {
-      if (e.target.closest('.del-icon')) {
-        e.target.closest('.contact').remove();
+      const target = e.target;
+      if (target.closest('.del-icon')) {
+        target.closest('.contact').remove();
+        removeStorage(target.dataset.phone);
       }
     });
   };
@@ -317,7 +319,6 @@ const data = [
 
       addContactPage(newContact, list);
       addContactData(newContact);
-      setStorage(newContact);
       form.reset();
       closeModal();
     })
@@ -325,7 +326,7 @@ const data = [
 
   const init = (selectorApp, title) => {
     const app = document.querySelector(selectorApp);
-
+    const data = getStorage();
     const {
       list,
       logo,
@@ -341,7 +342,6 @@ const data = [
     hoverRow(allRow, logo);
     deleteControl(btnDel,list);
     formControl(form, list, closeModal);
-    getStorage('data');
     console.log(data);
   };
 
